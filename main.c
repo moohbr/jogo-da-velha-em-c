@@ -15,7 +15,7 @@ void organizar(int* pontuacao, char nomes[10][255], int tamanho);
 void ranking();
 
 // Variaveis Globais
-char Mapa [TAMANHO_MAX_MAPA][TAMANHO_MAX_MAPA];
+char tabuleiro[TAMANHO_MAX_MAPA][TAMANHO_MAX_MAPA];
 char jogador = ' ';
 
 // Declaração de Funcoes
@@ -31,90 +31,90 @@ void escreve(void){
 
         switch (posicao){
             case 1:
-                if(Mapa[0][0] == 'X' || Mapa[0][0] == 'O'){
+                if(tabuleiro[0][0] == 'X' || tabuleiro[0][0] == 'O'){
                     printf("Posição ocupada. Por favor, escolha outra.\n");
                 }else{
-                    Mapa [0][0] = jogador;
+                    tabuleiro [0][0] = jogador;
                     ocupado = 1;
                 }
 
                 break;
 
             case 2:
-                if(Mapa[0][1] == 'X' || Mapa[0][1] == 'O'){
+                if(tabuleiro[0][1] == 'X' || tabuleiro[0][1] == 'O'){
                     printf("Posição ocupada. Por favor, escolha outra\n");
                 }else{
-                    Mapa [0][1] = jogador;
+                    tabuleiro [0][1] = jogador;
                     ocupado = 1;
                 }
 
                 break;
 
             case 3:
-                if(Mapa[0][2] == 'X' || Mapa[0][2] == 'O'){
+                if(tabuleiro[0][2] == 'X' || tabuleiro[0][2] == 'O'){
                     printf("Posição ocupada. Por favor, escolha outra\n");
                 }else{
-                    Mapa [0][2] = jogador;
+                    tabuleiro [0][2] = jogador;
                     ocupado = 1;
                 }
 
                 break;
 
             case 4:
-                if(Mapa[1][0] == 'X' || Mapa[1][0] == 'O'){
+                if(tabuleiro[1][0] == 'X' || tabuleiro[1][0] == 'O'){
                     printf("Posição ocupada. Por favor, escolha outra\n");
                 }else{
-                    Mapa [1][0] = jogador;
+                    tabuleiro [1][0] = jogador;
                     ocupado = 1;
                 }
 
                 break;
 
             case 5:
-                if(Mapa[1][1] == 'X' || Mapa[1][1] == 'O'){
+                if(tabuleiro[1][1] == 'X' || tabuleiro[1][1] == 'O'){
                     printf("Posição ocupada. Por favor, escolha outra\n");
                 }else{
-                    Mapa [1][1] = jogador;
+                    tabuleiro [1][1] = jogador;
                     ocupado = 1;
                 }
 
                 break;
 
             case 6:
-                if(Mapa[1][2] == 'X' || Mapa[1][2] == 'O'){
+                if(tabuleiro[1][2] == 'X' || tabuleiro[1][2] == 'O'){
                     printf("Posição ocupada. Por favor, escolha outra\n");
                 }else{
-                    Mapa [1][2] = jogador;
+                    tabuleiro [1][2] = jogador;
                     ocupado = 1;
                 }
 
                 break;
 
             case 7:
-                if(Mapa[2][0] == 'X' || Mapa[2][0] == 'O'){
+                if(tabuleiro[2][0] == 'X' || tabuleiro[2][0] == 'O'){
                     printf("Posição ocupada. Por favor, escolha outra\n");
                 }else{
-                    Mapa [2][0] = jogador;
+                    tabuleiro [2][0] = jogador;
                     ocupado = 1;
                 }
 
                 break;
 
             case 8:
-                if(Mapa[2][1] == 'X' || Mapa[2][1] == 'O'){
+                if(tabuleiro[2][1] == 'X' || tabuleiro[2][1] == 'O'){
                     printf("Posição ocupada. Por favor, escolha outra\n");
                 }else{
-                    Mapa [2][1] = jogador;
+                    tabuleiro [2][1] = jogador;
                     ocupado = 1;
                 }
 
                 break;
 
             case 9:
-                if(Mapa[2][2] == 'X' || Mapa[2][2] == 'O'){
+                if(tabuleiro[2][2] == 'X' || tabuleiro[2][2] == 'O'){
                     printf("Posição ocupada. Por favor, escolha outra\n");
                 }else{
-                    Mapa [2][2] = jogador;
+                    tabuleiro [2][2] = jogador;
                     ocupado = 1;
                 }
 
@@ -127,7 +127,7 @@ void escreve(void){
 void renderiza(void){
     for(int i = 0; i < TAMANHO_MAX_MAPA; i++){
         for(int j = 0; j < TAMANHO_MAX_MAPA; j++){
-            printf("%c ", Mapa[i][j]);
+            printf("%c ", tabuleiro[i][j]);
         }
         printf("\n");
     }
@@ -159,8 +159,8 @@ int verifica_vitoria(void){
     int venceu = 0 ;
 
     for(int i = 0; i < TAMANHO_MAX_MAPA; i++){
-        if (Mapa[i][0] == Mapa[i][1] && Mapa[i][0] == Mapa[i][2]){
-            if (Mapa[i][0] == 'X'){
+        if (tabuleiro[i][0] == tabuleiro[i][1] && tabuleiro[i][0] == tabuleiro[i][2]){
+            if (tabuleiro[i][0] == 'X'){
                 i = 3;
                 venceu = 8;
             }else{
@@ -171,8 +171,8 @@ int verifica_vitoria(void){
     }
 
     for(int i = 0; i < TAMANHO_MAX_MAPA; i++){
-        if (Mapa[0][i] == Mapa[1][i] && Mapa[0][i] == Mapa[2][i]){
-            if (Mapa[0][i] == 'X'){
+        if (tabuleiro[0][i] == tabuleiro[1][i] && tabuleiro[0][i] == tabuleiro[2][i]){
+            if (tabuleiro[0][i] == 'X'){
                 i = 3;
                 venceu = 8;
             }else{
@@ -182,16 +182,16 @@ int verifica_vitoria(void){
         }
     }
 
-    if(Mapa[0][2]==Mapa[1][1] && Mapa[0][2]==Mapa[2][0]){
-        if (Mapa[0][2] == 'X'){
+    if(tabuleiro[0][2]==tabuleiro[1][1] && tabuleiro[0][2]==tabuleiro[2][0]){
+        if (tabuleiro[0][2] == 'X'){
             venceu = 8;
         }else{
             venceu = 9;
         }
     }
 
-    if(Mapa[0][0] == Mapa[1][1] && Mapa[0][0] == Mapa[2][2]){
-        if (Mapa[0][2] == 'X'){
+    if(tabuleiro[0][0] == tabuleiro[1][1] && tabuleiro[0][0] == tabuleiro[2][2]){
+        if (tabuleiro[0][2] == 'X'){
             venceu = 8;
         }else{
             venceu = 9;
@@ -326,7 +326,7 @@ int main(void){
         // Renderiza o mapa  
         for(int i = 0; i < TAMANHO_MAX_MAPA; i++){
             for(int j = 0; j < TAMANHO_MAX_MAPA; j++){
-                Mapa[i][j] = (((i *  (TAMANHO_MAX_MAPA - 1)) + j) + (i + 1)) + '0';
+                tabuleiro[i][j] = (((i *  (TAMANHO_MAX_MAPA - 1)) + j) + (i + 1)) + '0';
             }
         }
 
