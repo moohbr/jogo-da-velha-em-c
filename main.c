@@ -13,13 +13,14 @@ void joga(void);
 void escrever_rank(char nome[4], int vitoria);
 void organizar(int* pontuacao, char nomes[10][255], int tamanho);
 void ranking();
+int gerar_posicao(int coluna, int linha);
 
 // Variaveis Globais
 char tabuleiro[TAMANHO_MAX_MAPA][TAMANHO_MAX_MAPA];
 char jogador = ' ';
 
 // Declaração de Funcoes
-// Funcao que escreve no mapa do jogo da velha
+// Funcao que escreve no tabuleiro do jogo da velha
 void escreve(void){
     int ocupado = 0;
 
@@ -29,101 +30,25 @@ void escreve(void){
         printf("Selecione uma posicao: \n");
         scanf("%i", &posicao);
 
-        switch (posicao){
-            case 1:
-                if(tabuleiro[0][0] == 'X' || tabuleiro[0][0] == 'O'){
-                    printf("Posição ocupada. Por favor, escolha outra.\n");
-                }else{
-                    tabuleiro [0][0] = jogador;
-                    ocupado = 1;
+        for(int i = 0; i < TAMANHO_MAX_MAPA; i++){
+            for(int j = 0; j < TAMANHO_MAX_MAPA; j++){
+                if(gerar_posicao(i, j) == posicao){
+                    if(tabuleiro[i][j] == 'X' || tabuleiro[i][j] == 'O'){
+                        printf("Posição ocupada. Por favor, escolha outra.\n");
+                    }else{
+                        if(tabuleiro[i][j] == posicao + '0'){
+                           tabuleiro[i][j]= jogador;
+
+                           ocupado = 1;
+                        }
+                    }
                 }
-
-                break;
-
-            case 2:
-                if(tabuleiro[0][1] == 'X' || tabuleiro[0][1] == 'O'){
-                    printf("Posição ocupada. Por favor, escolha outra\n");
-                }else{
-                    tabuleiro [0][1] = jogador;
-                    ocupado = 1;
-                }
-
-                break;
-
-            case 3:
-                if(tabuleiro[0][2] == 'X' || tabuleiro[0][2] == 'O'){
-                    printf("Posição ocupada. Por favor, escolha outra\n");
-                }else{
-                    tabuleiro [0][2] = jogador;
-                    ocupado = 1;
-                }
-
-                break;
-
-            case 4:
-                if(tabuleiro[1][0] == 'X' || tabuleiro[1][0] == 'O'){
-                    printf("Posição ocupada. Por favor, escolha outra\n");
-                }else{
-                    tabuleiro [1][0] = jogador;
-                    ocupado = 1;
-                }
-
-                break;
-
-            case 5:
-                if(tabuleiro[1][1] == 'X' || tabuleiro[1][1] == 'O'){
-                    printf("Posição ocupada. Por favor, escolha outra\n");
-                }else{
-                    tabuleiro [1][1] = jogador;
-                    ocupado = 1;
-                }
-
-                break;
-
-            case 6:
-                if(tabuleiro[1][2] == 'X' || tabuleiro[1][2] == 'O'){
-                    printf("Posição ocupada. Por favor, escolha outra\n");
-                }else{
-                    tabuleiro [1][2] = jogador;
-                    ocupado = 1;
-                }
-
-                break;
-
-            case 7:
-                if(tabuleiro[2][0] == 'X' || tabuleiro[2][0] == 'O'){
-                    printf("Posição ocupada. Por favor, escolha outra\n");
-                }else{
-                    tabuleiro [2][0] = jogador;
-                    ocupado = 1;
-                }
-
-                break;
-
-            case 8:
-                if(tabuleiro[2][1] == 'X' || tabuleiro[2][1] == 'O'){
-                    printf("Posição ocupada. Por favor, escolha outra\n");
-                }else{
-                    tabuleiro [2][1] = jogador;
-                    ocupado = 1;
-                }
-
-                break;
-
-            case 9:
-                if(tabuleiro[2][2] == 'X' || tabuleiro[2][2] == 'O'){
-                    printf("Posição ocupada. Por favor, escolha outra\n");
-                }else{
-                    tabuleiro [2][2] = jogador;
-                    ocupado = 1;
-                }
-
-                break;
+            }
         }
     }
 }
 
-// Funcao que renderiza o mapa.
+// Funcao que renderiza o tabuleiro.
 void renderiza(void){
     for(int i = 0; i < TAMANHO_MAX_MAPA; i++){
         for(int j = 0; j < TAMANHO_MAX_MAPA; j++){
@@ -284,6 +209,10 @@ void ranking(){
     fclose(pont_arq);
 }
 
+int gerar_posicao(int linha, int coluna){
+    return (((linha *  (TAMANHO_MAX_MAPA - 1)) + coluna) + (linha + 1));
+}
+
 int main(void){
     // Declaracao de variaveis usadas
     int v_jogador1 =0; // vitorias jogador 1
@@ -323,10 +252,10 @@ int main(void){
     }while(tamanho_nome>4);
 
     while(!(opcao==2)){
-        // Renderiza o mapa  
+        // Renderiza o tabuleiro  
         for(int i = 0; i < TAMANHO_MAX_MAPA; i++){
             for(int j = 0; j < TAMANHO_MAX_MAPA; j++){
-                tabuleiro[i][j] = (((i *  (TAMANHO_MAX_MAPA - 1)) + j) + (i + 1)) + '0';
+                tabuleiro[i][j] = gerar_posicao(i, j) + '0';
             }
         }
 
