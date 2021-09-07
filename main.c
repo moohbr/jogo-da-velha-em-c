@@ -3,6 +3,15 @@
 #include <stdlib.h>
 #include <string.h>
 
+void escreve(void);
+void renderiza(void);
+char ler_jogador(void);
+int verifica_vitoria(void);
+void joga(void);
+void escrever_rank(char nome[4], int vitoria);
+void organizar(int* pontuacao, char nomes[10][255], int tamanho);
+void ranking();
+
 // Variaveis Globais
 char Mapa [3][3];
 char jogador = ' ';
