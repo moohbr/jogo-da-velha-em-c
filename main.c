@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define TAMANHO_MAX_MAPA 3
+#define TAMANHO_MAX_TABULEIRO 3
 
 void escreve(void);
 void renderiza(void);
@@ -14,9 +14,12 @@ void escrever_rank(char nome[4], int vitoria);
 void organizar(int* pontuacao, char nomes[10][255], int tamanho);
 void ranking();
 int gerar_posicao(int coluna, int linha);
+int verifica_vitoria_horizontal(void);
+int verifica_vitoria_vertical(void);
+int verifica_vitoria_diagonal(void);
 
 // Variaveis Globais
-char tabuleiro[TAMANHO_MAX_MAPA][TAMANHO_MAX_MAPA];
+char tabuleiro[TAMANHO_MAX_TABULEIRO][TAMANHO_MAX_TABULEIRO];
 char jogador = ' ';
 
 // Declaração de Funcoes
@@ -30,8 +33,8 @@ void escreve(void){
         printf("Selecione uma posicao: \n");
         scanf("%i", &posicao);
 
-        for(int i = 0; i < TAMANHO_MAX_MAPA; i++){
-            for(int j = 0; j < TAMANHO_MAX_MAPA; j++){
+        for(int i = 0; i < TAMANHO_MAX_TABULEIRO; i++){
+            for(int j = 0; j < TAMANHO_MAX_TABULEIRO; j++){
                 if(gerar_posicao(i, j) == posicao){
                     if(tabuleiro[i][j] == 'X' || tabuleiro[i][j] == 'O'){
                         printf("Posição ocupada. Por favor, escolha outra.\n");
@@ -50,8 +53,8 @@ void escreve(void){
 
 // Funcao que renderiza o tabuleiro.
 void renderiza(void){
-    for(int i = 0; i < TAMANHO_MAX_MAPA; i++){
-        for(int j = 0; j < TAMANHO_MAX_MAPA; j++){
+    for(int i = 0; i < TAMANHO_MAX_TABULEIRO; i++){
+        for(int j = 0; j < TAMANHO_MAX_TABULEIRO; j++){
             printf("%c ", tabuleiro[i][j]);
         }
         printf("\n");
@@ -82,48 +85,18 @@ char ler_jogador(void){
 // Funcao que verifica se algum jogador ja ganhou
 int verifica_vitoria(void){
     int venceu = 0 ;
+    
+    int vencedor_horizontal = verifica_vitoria_horizontal();
+    int vencedor_vertical = verifica_vitoria_vertical();
+    int vencedor_diagonal = verifica_vitoria_diagonal();
 
-    for(int i = 0; i < TAMANHO_MAX_MAPA; i++){
-        if (tabuleiro[i][0] == tabuleiro[i][1] && tabuleiro[i][0] == tabuleiro[i][2]){
-            if (tabuleiro[i][0] == 'X'){
-                venceu = 8;
-
-                break;
-            }else{
-                venceu = 9;
-
-                break;
-            }
-        }
-    }
-
-    for(int i = 0; i < TAMANHO_MAX_MAPA; i++){
-        if (tabuleiro[0][i] == tabuleiro[1][i] && tabuleiro[0][i] == tabuleiro[2][i]){
-            if (tabuleiro[0][i] == 'X'){
-                venceu = 8;
-
-                break;
-            }else{
-                venceu = 9;
-
-                break;
-            }
-        }
-    }
-
-    if(tabuleiro[0][2] == tabuleiro[1][1] && tabuleiro[0][2] == tabuleiro[2][0]){
-        if (tabuleiro[0][2] == 'X'){
-            venceu = 8;
-        }else{
-            venceu = 9;
-        }
-    }
-
-    if(tabuleiro[0][0] == tabuleiro[1][1] && tabuleiro[0][0] == tabuleiro[2][2]){
-        if (tabuleiro[0][2] == 'X'){
-            venceu = 8;
-        }else{
-            venceu = 9;
+    if(vencedor_horizontal != 0 || vencedor_vertical != 0 || vencedor_diagonal != 0){
+        if(vencedor_horizontal != 0) {
+            venceu = vencedor_horizontal;
+        }else if(vencedor_vertical != 0){
+            venceu = vencedor_vertical;
+        }else if(vencedor_diagonal != 0){
+            venceu = vencedor_diagonal;
         }
     }
 
@@ -214,7 +187,161 @@ void ranking(){
 }
 
 int gerar_posicao(int linha, int coluna){
-    return (((linha *  (TAMANHO_MAX_MAPA - 1)) + coluna) + (linha + 1));
+    return (((linha *  (TAMANHO_MAX_TABULEIRO - 1)) + coluna) + (linha + 1));
+}
+
+int verifica_vitoria_horizontal(){
+    int jogador_vencedor = 0;
+    int contador_seguimento = 1;
+
+    for(int i = 0; i < TAMANHO_MAX_TABULEIRO; i++){
+        if(contador_seguimento == 3){
+            break;
+        }
+
+        for(int j = 0; j < TAMANHO_MAX_TABULEIRO; j++){
+            if(contador_seguimento == 3){
+                break;
+            }
+
+            int jogador_vencedor_passado = jogador_vencedor;
+
+            if(tabuleiro[i][j] == 'X'){
+                jogador_vencedor = 8;
+            }else if(tabuleiro[i][j] == 'Z'){
+                jogador_vencedor = 9;
+            }else{
+                jogador_vencedor = 0;
+            }
+
+            if(jogador_vencedor != jogador_vencedor_passado){
+                contador_seguimento = 1;
+            }else{
+               if(jogador_vencedor != 0){
+                    contador_seguimento ++;
+                }
+            }
+        }
+    }
+
+    if(contador_seguimento < 3){
+        jogador_vencedor = 0;
+    }
+
+    return jogador_vencedor;
+}
+
+int verifica_vitoria_vertical(){
+    int jogador_vencedor = 0;
+    int contador_seguimento = 1;
+
+    for(int i = 0; i < TAMANHO_MAX_TABULEIRO; i++){
+        if(contador_seguimento == 3){
+            break;
+        }
+
+        for(int j = 0; j < TAMANHO_MAX_TABULEIRO; j++){
+            if(contador_seguimento == 3){
+                break;
+            }
+
+           int jogador_vencedor_passado = jogador_vencedor;
+
+            if(tabuleiro[j][i] == 'X'){
+                jogador_vencedor = 8;
+            }else if(tabuleiro[j][i] == 'Z'){
+                jogador_vencedor = 9;
+            }else{
+                jogador_vencedor = 0;
+            }
+
+            if(contador_seguimento == 3){
+                break;
+            }
+
+            if(jogador_vencedor != jogador_vencedor_passado){
+                contador_seguimento = 1;
+            }else{
+                if(jogador_vencedor != 0){
+                    contador_seguimento ++;
+                }
+            }
+        }
+
+        if(contador_seguimento < 3){
+            jogador_vencedor = 0;
+        }
+    }
+
+    return jogador_vencedor;
+}
+
+int verifica_vitoria_diagonal(){
+    int jogador_vencedor = 0;
+    int contador_seguimento = 1;
+
+    for(int diagonais_buscadas = 1; diagonais_buscadas <= 2; diagonais_buscadas++){
+        for(int i = 0; i < TAMANHO_MAX_TABULEIRO; i++){
+            if(contador_seguimento == 3){
+                break;
+            }
+
+            for(int j = 0; j < TAMANHO_MAX_TABULEIRO; j++){
+                if(contador_seguimento == 3){
+                    break;
+                }
+
+                if(diagonais_buscadas == 1){
+                    if(i == j){
+                        int jogador_vencedor_passado = jogador_vencedor;
+
+                        if(tabuleiro[i][j] == 'X'){
+                            jogador_vencedor = 8;
+                        }else if(tabuleiro[i][j] == 'Z'){
+                            jogador_vencedor = 9;
+                        }else{
+                            jogador_vencedor = 0;
+                        }
+
+                        if(jogador_vencedor != jogador_vencedor_passado){
+                            contador_seguimento = 1;
+                        }else{
+                           if(jogador_vencedor != 0){
+                                contador_seguimento ++;
+                            }
+                        }
+                    }
+                }else{
+                    if(j == ((TAMANHO_MAX_TABULEIRO - 1) - i)){
+                        int jogador_vencedor_passado = jogador_vencedor;
+
+                        if(tabuleiro[i][j] == 'X'){
+                            jogador_vencedor = 8;
+                        }else if(tabuleiro[i][j] == 'Z'){
+                            jogador_vencedor = 9;
+                        }else{
+                            jogador_vencedor = 0;
+                        }
+
+                        if(jogador_vencedor != jogador_vencedor_passado){
+                            contador_seguimento = 1;
+                        }else{
+                           if(jogador_vencedor != 0){
+                                contador_seguimento ++;
+                            }
+                        }
+                    }
+                }
+                
+            }
+        }
+    }
+
+    if(contador_seguimento < 3){
+        jogador_vencedor = 0;
+    }
+
+    return jogador_vencedor;
 }
 
 int main(void){
@@ -257,8 +384,8 @@ int main(void){
 
     while(!(opcao==2)){
         // Renderiza o tabuleiro  
-        for(int i = 0; i < TAMANHO_MAX_MAPA; i++){
-            for(int j = 0; j < TAMANHO_MAX_MAPA; j++){
+        for(int i = 0; i < TAMANHO_MAX_TABULEIRO; i++){
+            for(int j = 0; j < TAMANHO_MAX_TABULEIRO; j++){
                 tabuleiro[i][j] = gerar_posicao(i, j) + '0';
             }
         }
