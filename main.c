@@ -125,8 +125,8 @@ void escreve(void){
 
 // Funcao que renderiza o mapa.
 void renderiza(void){
-    for(int i = 0; i < 3; i++){
-        for (int j = 0; j < 3; j++){
+    for(int i = 0; i < TAMANHO_MAX_MAPA; i++){
+        for(int j = 0; j < TAMANHO_MAX_MAPA; j++){
             printf("%c ", Mapa[i][j]);
         }
         printf("\n");
@@ -158,7 +158,7 @@ char ler_jogador(void){
 int verifica_vitoria(void){
     int venceu = 0 ;
 
-    for (int i = 0; i < 3; i++){
+    for(int i = 0; i < TAMANHO_MAX_MAPA; i++){
         if (Mapa[i][0] == Mapa[i][1] && Mapa[i][0] == Mapa[i][2]){
             if (Mapa[i][0] == 'X'){
                 i = 3;
@@ -170,7 +170,7 @@ int verifica_vitoria(void){
         }
     }
 
-    for (int i = 0; i < 3; i++){
+    for(int i = 0; i < TAMANHO_MAX_MAPA; i++){
         if (Mapa[0][i] == Mapa[1][i] && Mapa[0][i] == Mapa[2][i]){
             if (Mapa[0][i] == 'X'){
                 i = 3;
@@ -182,7 +182,7 @@ int verifica_vitoria(void){
         }
     }
 
-    if(Mapa[0][2]==Mapa[1][1]&&Mapa[0][2]==Mapa[2][0]){
+    if(Mapa[0][2]==Mapa[1][1] && Mapa[0][2]==Mapa[2][0]){
         if (Mapa[0][2] == 'X'){
             venceu = 8;
         }else{
@@ -224,13 +224,12 @@ void escrever_rank(char nome[4], int vitoria){
 
 // Funcao que organiza os arquivos do maior para o menor
 void organizar(int* pontuacao, char nomes[10][255], int tamanho){ 
-    int i;
     int trocou;
 
     do{
         trocou = 0;
 
-        for (i=tamanho; i > 0; i--){   
+        for(int i = tamanho; i > 0; i--){   
             if (pontuacao[i] > pontuacao[i-1]){   
                 int pAux;
                 char nAux[255];
@@ -278,7 +277,7 @@ void ranking(){
 
     organizar(pontuacoes, nomes, tamanho);
 
-    for (int  i=0; i<tamanho; i++){
+    for(int  i = 0; i < tamanho; i++){
         printf("%s %d\n", nomes[i], pontuacoes[i]);
     }
 
@@ -325,8 +324,8 @@ int main(void){
 
     while(!(opcao==2)){
         // Renderiza o mapa  
-        for(int i = 0; i < 3; i++){
-            for (int j = 0; j < 3; j++){
+        for(int i = 0; i < TAMANHO_MAX_MAPA; i++){
+            for(int j = 0; j < TAMANHO_MAX_MAPA; j++){
                 Mapa[i][j] = (((i *  (TAMANHO_MAX_MAPA - 1)) + j) + (i + 1)) + '0';
             }
         }
@@ -348,7 +347,7 @@ int main(void){
         int teste = 0;
 
         // Funcao que, olha se houve velha pelo numero de jogadas
-        while(teste!=8 && velha < 8 && teste!=9){
+        while(teste != 8 && velha < 8 && teste != 9){
             joga();
 
             teste = verifica_vitoria();
@@ -356,41 +355,41 @@ int main(void){
             velha++;
         }
 
-        if((teste!=8)&&(teste!=9)){
+        if((teste != 8) && (teste != 9)){
             printf("Deu velha. Ninguem pontua!");
         }
 
         // Teste para ver quem ganhou a partir de suas escolhas
-        if ((teste==8)&&(simbolo1=='X')){
+        if ((teste == 8) && (simbolo1 == 'X')){
             v_jogador1 += 1;
         }
-        if ((teste==8)&&(simbolo1=='O')){
+        if ((teste == 8) && (simbolo1 == 'O')){
             v_jogador1 += 1;
         }
-        if ((teste==9)&&(simbolo1=='X')){
+        if ((teste == 9) && (simbolo1 == 'X')){
             v_jogador2 += 1;
         }
-        if ((teste==9)&&(simbolo1=='O')){
+        if ((teste == 9) && (simbolo1 == 'O')){
             v_jogador2 += 1;
         }
 
         // Verifica com o usuario se ele deseja parar ou nao
         printf("Se desejam continuar digite [1] para continuar e [2] para finalizar o jogo:  ");
-        while ((!(opcao==2))&&(!(opcao==1))){
+        while ((!(opcao == 2)) && (!(opcao == 1))){
             scanf("%i", &opcao);
 
-            if((!(opcao==2))&&(!(opcao==1))){
+            if((!(opcao == 2)) && (!(opcao == 1))){
                 printf("Opcao invalida. Digite novamente!\n");
             }
         }
     }
 
     // Para evitar escrever jogadores com pontuacoes nulas, se faz esse teste
-    if(v_jogador1!=0){
+    if(v_jogador1 != 0){
         escrever_rank(nome_jogador1, v_jogador1);
     }
 
-    if(v_jogador2!=0){
+    if(v_jogador2 != 0){
         escrever_rank(nome_jogador2, v_jogador2);
     }
 
