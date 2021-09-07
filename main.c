@@ -86,11 +86,13 @@ int verifica_vitoria(void){
     for(int i = 0; i < TAMANHO_MAX_MAPA; i++){
         if (tabuleiro[i][0] == tabuleiro[i][1] && tabuleiro[i][0] == tabuleiro[i][2]){
             if (tabuleiro[i][0] == 'X'){
-                i = 3;
                 venceu = 8;
+
+                break;
             }else{
-                i = 3;
                 venceu = 9;
+
+                break;
             }
         }
     }
@@ -98,16 +100,18 @@ int verifica_vitoria(void){
     for(int i = 0; i < TAMANHO_MAX_MAPA; i++){
         if (tabuleiro[0][i] == tabuleiro[1][i] && tabuleiro[0][i] == tabuleiro[2][i]){
             if (tabuleiro[0][i] == 'X'){
-                i = 3;
                 venceu = 8;
+
+                break;
             }else{
-                i = 3;
                 venceu = 9;
+
+                break;
             }
         }
     }
 
-    if(tabuleiro[0][2]==tabuleiro[1][1] && tabuleiro[0][2]==tabuleiro[2][0]){
+    if(tabuleiro[0][2] == tabuleiro[1][1] && tabuleiro[0][2] == tabuleiro[2][0]){
         if (tabuleiro[0][2] == 'X'){
             venceu = 8;
         }else{
