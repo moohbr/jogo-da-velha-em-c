@@ -3,6 +3,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+#define TAMANHO_MAX_MAPA 3
+
 void escreve(void);
 void renderiza(void);
 char ler_jogador(void);
@@ -13,7 +15,7 @@ void organizar(int* pontuacao, char nomes[10][255], int tamanho);
 void ranking();
 
 // Variaveis Globais
-char Mapa [3][3];
+char Mapa [TAMANHO_MAX_MAPA][TAMANHO_MAX_MAPA];
 char jogador = ' ';
 
 // Declaração de Funcoes
@@ -323,15 +325,11 @@ int main(void){
 
     while(!(opcao==2)){
         // Renderiza o mapa  
-        Mapa[0][0]='1';
-        Mapa[0][1]='2';
-        Mapa[0][2]='3';
-        Mapa[1][0]='4';
-        Mapa[1][1]='5';
-        Mapa[1][2]='6';  
-        Mapa[2][0]='7';
-        Mapa[2][1]='8';
-        Mapa[2][2]='9';
+        for(int i = 0; i < 3; i++){
+            for (int j = 0; j < 3; j++){
+                Mapa[i][j] = (((i *  (TAMANHO_MAX_MAPA - 1)) + j) + (i + 1)) + '0';
+            }
+        }
 
         // Por seguranca, zera a opcao
         opcao=0;
