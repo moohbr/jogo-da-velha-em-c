@@ -1,2 +1,2 @@
-# jogo-da-velha-em-c
-Trabalho 1º Semestre da UNIFEI - Profª Elisa
+# tic-tac-toe-c
+UNIFEI - 2nd Semester Work - Teacher Elisa
